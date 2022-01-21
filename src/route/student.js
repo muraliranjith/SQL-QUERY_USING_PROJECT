@@ -9,6 +9,7 @@ router.get('/fulltext',studentController.fultext);
 router.get('/order',studentController.order);
 router.get('/agecompair',studentController.age);
 
+router.get('/searching',studentController.searching);
 
 router.post('/mysql',studentController.createStudent);
 

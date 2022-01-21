@@ -70,27 +70,76 @@ const fultext = async (req, res) => {
 const order = async (req, res) => {
 
     const order = req.body.order;
-    const sort = (req.body.limit );
+    const sort = (req.body.limit);
 
     const name = (req.body.fisrtname || req.body.lastname || req.body.department)
-    const user = await studentService.getOrder(name, order ,sort);
+    const user = await studentService.getOrder(name, order, sort);
     res.send(user);
 }
-const age = async(req,res)=>{
+const age = async (req, res) => {
     const smallAge = req.body.smallAge;
     const largeAge = req.body.largeAge;
     const limit = req.body.limit
 
-    if(limit==undefined){
-        const limit1=10
-        const user = await studentService.ageCompaire( smallAge ,largeAge,limit1);
+    if (limit == undefined) {
+        const limit1 = 10
+        const user = await studentService.ageCompaire(smallAge, largeAge, limit1);
         res.send(user);
-    }else{
-        
-        const user = await studentService.ageCompaire( smallAge ,largeAge,limit);
+    } else {
+
+        const user = await studentService.ageCompaire(smallAge, largeAge, limit);
         res.send(user);
     }
 
+}
+const searching = async (req, res) => {
+
+    const smallAge = req.body.smallAge;
+    const largeAge = req.body.largeAge;
+    const order = req.body.order;
+    const name = (req.body.firstname || req.body.lastname)
+    const option = (req.body.fisrtname || req.body.lastname || req.body.department)
+    const limit = (req.body.limit);
+
+    if ((smallAge == undefined && largeAge == undefined) || name == undefined || option == undefined || order == undefined || limit == undefined) {
+
+        if (smallAge == undefined && largeAge == undefined) {
+            smallAge = 20;
+            largeAge = 29;
+            const user = await studentService.searching(smallAge, largeAge, name, option, order, limit);
+            res.send(user);
+
+        } else if (name == undefined) {
+            const name1 = 'a';
+            const user = await studentService.searching(smallAge, largeAge, name1, option, order, limit);
+            res.send(user);
+
+
+        } else if (option == undefined) {
+            const option1 = 'fisrtname';
+            const user = await studentService.searching(smallAge, largeAge, name, option1, order, limit);
+            res.send(user);
+
+        } else if (order == undefined) {
+            const order1 = 'ASC';
+            const user = await studentService.searching(smallAge, largeAge, name, option, order1, limit);
+            res.send(user);
+
+        } else if (limit == undefined) {
+            const limit1 = 10;
+            const user = await studentService.searching(smallAge, largeAge, name, option, order, limit1);
+            res.send(user);
+
+        }else{
+            res.status.json({
+                message:"please fill all the field"
+            });
+        }
+
+    } else {
+        const user = await studentService.searching(smallAge, largeAge, name, option, order, limit);
+        res.send(user);
+    }
 }
 module.exports = {
     createTable,
@@ -102,5 +151,6 @@ module.exports = {
     pickLike,
     fultext,
     order,
-    age
+    age,
+    searching
 }

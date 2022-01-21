@@ -107,6 +107,20 @@ const ageCompaire = async(small,large,limit)=>{
         })
     })
 }
+
+
+
+const searching = async(smallAge,largeAge,name,option,order,limit)=>{
+
+    return new Promise((res)=>{
+        db.query(` select * from students where age>=${smallAge} and age<=${largeAge} and CONCAT(fisrtname, ' ', lastname) LIKE '%${name}%'  ORDER BY ${option}  ${order} limit ${limit}`,(err,rows)=>{
+            if(err){
+                console.log('error',err);
+            }
+            return res(rows);
+        })
+    })
+}
 module.exports = {
     createTable,
     getStudents,
@@ -117,6 +131,7 @@ module.exports = {
     pickLike,
     concat,
     getOrder,
-    ageCompaire
+    ageCompaire,
+    searching
 
 }
