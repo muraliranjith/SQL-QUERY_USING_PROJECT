@@ -101,44 +101,47 @@ const searching = async (req, res) => {
     const option = (req.body.fisrtname || req.body.lastname || req.body.department)
     const limit = (req.body.limit);
 
-    if ((smallAge == undefined && largeAge == undefined) || name == undefined || option == undefined || order == undefined || limit == undefined) {
+    if (smallAge == undefined || largeAge == undefined || name == undefined || option == undefined || order == undefined || limit == undefined) {
 
-        if (smallAge == undefined && largeAge == undefined) {
-            smallAge = 20;
-            largeAge = 29;
-            const user = await studentService.searching(smallAge, largeAge, name, option, order, limit);
+        if (smallAge == undefined) {
+            const smallAge1 = 20;
+
+            const user = await studentService.searching(smallAge1, largeAge, name, option, order, limit);
             res.send(user);
+        } else if (largeAge == undefined) {
+            const largeAge1 = 29;
 
+            const user = await studentService.searching(smallAge, largeAge1, name, option, order, limit);
+            res.send(user);
         } else if (name == undefined) {
-            const name1 = 'a';
-            const user = await studentService.searching(smallAge, largeAge, name1, option, order, limit);
-            res.send(user);
+        const name1 = 'a';
+        const user = await studentService.searching(smallAge, largeAge, name1, option, order, limit);
+        res.send(user);
 
+    } else if (option == undefined) {
+        const option1 = 'fisrtname';
+        const user = await studentService.searching(smallAge, largeAge, name, option1, order, limit);
+        res.send(user);
 
-        } else if (option == undefined) {
-            const option1 = 'fisrtname';
-            const user = await studentService.searching(smallAge, largeAge, name, option1, order, limit);
-            res.send(user);
+    } else if (order == undefined) {
+        const order1 = 'ASC';
+        const user = await studentService.searching(smallAge, largeAge, name, option, order1, limit);
+        res.send(user);
 
-        } else if (order == undefined) {
-            const order1 = 'ASC';
-            const user = await studentService.searching(smallAge, largeAge, name, option, order1, limit);
-            res.send(user);
-
-        } else if (limit == undefined) {
-            const limit1 = 10;
-            const user = await studentService.searching(smallAge, largeAge, name, option, order, limit1);
-            res.send(user);
-
-        }else{
-            res.status.json({
-                message:"please fill all the field"
-            });
-        }
+    } else if (limit == undefined) {
+        const limit1 = 10;
+        const user = await studentService.searching(smallAge, largeAge, name, option, order, limit1);
+        res.send(user);
 
     } else {
-        const user = await studentService.searching(smallAge, largeAge, name, option, order, limit);
-        res.send(user);
+        res.status.json({
+            message: "please fill all the field"
+        });
+    }
+
+} else {
+    const user = await studentService.searching(smallAge, largeAge, name, option, order, limit);
+res.send(user);
     }
 }
 module.exports = {
