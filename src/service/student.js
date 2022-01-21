@@ -108,8 +108,6 @@ const ageCompaire = async(small,large,limit)=>{
     })
 }
 
-
-
 const searching = async(smallAge,largeAge,name,option,order,limit)=>{
 
     return new Promise((res)=>{
